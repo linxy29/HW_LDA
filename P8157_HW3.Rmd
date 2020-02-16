@@ -1,0 +1,132 @@
+---
+title: "Homework 3"
+author: "Xinyi Lin"
+date: "11/25/2019"
+output: pdf_document
+---
+
+```{r,message=FALSE}
+library(lme4)
+library(nlme)
+library(gee)
+library(tidyverse)
+```
+
+## Question 1
+
+```{r}
+toenail <- read.table("./toenail.dat", quote="\"")
+colnames(toenail) = c("Subject_ID", "Response", "Treatment", "Month", "Visit")
+```
+
+### Problem 1
+
+Let $y_{ij}$ be the onycholysis outcome for subject $i=1,2,...,294$ at visit $j = 1,2,...,7$. $y_{ij}|b_i$ follows binomial distribution.
+
+Model: $logit(E[y_{ij}|b_i])=b_{i0}+\beta_0+\beta_1*time_{ij}+\beta_2treatment_{ij} + \beta_3treatment_{ij}*time_{ij}$ where $b_i\sim MVN(0,G)$.
+
+```{r}
+glm.model = glmer(Response ~ as.factor(Treatment) + Month + Month*as.factor(Treatment) + (1|Subject_ID), family = "binomial", data = toenail)
+summary(glm.model)
+```
+
+### Problem 2
+
+Interpretation:
+
+Fixed effect:
+
+$\beta_0:$ Log odds of the onycholysis outcome for a "typical" or "average" individual in treatment B group when month equals to 0 is -2.51.
+
+$\beta_1:$ Log odds ratio of the onycholysis outcome for one unit increase in month in a given individual in treatment B group is -0.30.
+
+$\beta_2:$ Log odds ratio of the onycholysis outcome for two individuals who have similar underlying propensity in treatment A group versus treatment B group is -0.40 when month equals to 0.
+
+$\beta_3:$ Log odds ratio of the onycholysis outcome for two individuals who have similar underlying propensity in treatment A group versus treatment B group with one unit increase of month is -0.14.
+
+Random effect:
+
+$bi:$ patient-to-patient difference. It indicates overall, difference of response level between given individual and population average level. The difference among patients have variance of 20.76.
+
+### Problem 3
+
+According to the model, we can find that the coefficient of interaction term of month and treatment is significant and is negative. This means over time, the log odds of the onycholysis outcome in treatment A group is increasingly smaller than that in treatment B groups, which means the effect of treatment on changes in the severity of onycholysis is increase over time.
+
+### Problem 4
+
+When interpreting the GEE model, we are interpreting in population level while we are interpreting in individual level when interpreting the mixed effect model.
+
+```{r}
+gee.model <- gee(Response ~ as.factor(Treatment) + Month + Month*as.factor(Treatment), id = Subject_ID, data = toenail, family = binomial, corstr = 'exchangeable')
+summary(gee.model)
+```
+
+$\beta_0:$ On average, log odds of the onycholysis outcome in treatment B group when month equals to 0 is -0.58.
+
+$\beta_1:$ On average, log odds ratio of the onycholysis outcome for one unit increase in month for treatment B group is 0.007.
+
+$\beta_2:$ On average, log odds ratio of the onycholysis outcome among treatment A group versus treatment B group is -0.171 when month equals to 0.
+
+$\beta_3:$ On average, log odds ratio of the onycholysis outcome among treatment A group versus treatment B group with one unit increase of month is -0.078.
+
+## Question 2
+
+```{r}
+skin = read.table("./skin2.txt", quote="\"", comment.char="")
+colnames(skin) = c("id", "center", "age", "skin", "gender", "exposure", "y", "treatment", "year")
+```
+
+### Problem 1
+
+Let $y_{ij}$ be the number of new skin cancers for subject $i=1,2,...,1683$ at visit $j = 1,2,...,5$. $y_{ij}|b_i$ follows poisson distribution.
+
+Model: $log(E[y_{ij}|b_i])=b_{i0}+\beta_0+\beta_1*year_{ij}+\beta_2treatment_{ij}$ where $b_i\sim MVN(0,G)$.
+
+```{r}
+glm.model1 = glmer(y ~ as.factor(treatment) + year + (1|id), family = "poisson", data = skin)
+summary(glm.model1)
+```
+
+### Problem 2
+
+Fixed effect:
+
+$\beta_0:$ Log of the number of new skin cancers for a "typical" or "average" individual in the placebo group at baseline is -2.465.
+
+$\beta_1:$ Log ratio of the number of new skin cancers for one unit increase in year in a given individual is 0.17.
+
+$\beta_2:$ Log ratio of the number of new skin cancers for two individuals who have similar underlying propensity in beta carotene group versus placebo group in the same year is 0.018.
+
+Random effect:
+
+$bi:$ patient-to-patient difference. It indicates overall, difference of response level between given individual and population average level. The difference among patients have variance of 2.189.
+
+### Problem 3
+
+According to results above, we can find that the coefficience of treatment is not significant, which means there are no significant result to conclude that beta carotene have significant effect on prevent skin cancers.
+
+### Problem 4
+
+```{r,warning=FALSE}
+glm.model2 = glmer(y ~ as.factor(treatment) + year + skin + age + exposure + (1|id), family = "poisson", data = skin)
+summary(glm.model2)
+```
+
+After adjusting for skin type, age and the count of the number of previous skin cancers, the coefficience of treatment still isn't significant, which means after adjusting for skin type, age and the count of the number of previous skin cancers, there are no significant result to conclude that beta carotene have significant effect on prevent skin cancers.
+
+### Problem 5
+
+When interpreting the GEE model, we are interpreting in population level while we are interpreting in individual level when interpreting the mixed effect model.
+
+```{r}
+gee.model <- gee(y ~ as.factor(treatment) + year, id = id, data = skin, family = poisson(), corstr = 'exchangeable')
+summary(gee.model)
+```
+
+Interpretation:
+
+$\beta_0:$ On average, log of the number of new skin cancers in the placebo group at baseline is -1.412.
+
+$\beta_1:$ On average, log ratio of the number of new skin cancers for one unit increase in year is 0.148.
+
+$\beta_2:$ On average, log ratio of the number of new skin cancers in beta carotene group versus placebo group in the same year is 0.017.
