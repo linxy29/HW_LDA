@@ -1,0 +1,640 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={week1\_EDA\_Sample\_code.R},
+            pdfauthor={81983},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{week1\_EDA\_Sample\_code.R}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{81983}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{2019-09-30}
+
+
+\begin{document}
+\maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# exploring pig growth data}
+\NormalTok{pigs<-}\KeywordTok{read.table}\NormalTok{(}\StringTok{"./PIGS.txt"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{,}\DataTypeTok{header=}\OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{colnames}\NormalTok{(pigs)<-}\DecValTok{1}\OperatorTok{:}\DecValTok{9}
+\KeywordTok{matplot}\NormalTok{(}\KeywordTok{t}\NormalTok{(pigs),}\DataTypeTok{type=}\StringTok{"l"}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"Time in Weeks"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"Weight"}\NormalTok{,}\DataTypeTok{lwd=}\DecValTok{1}\NormalTok{,}\DataTypeTok{main=}\StringTok{"Pigs Weight Growth"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{week1_EDA_Sample_code_files/figure-latex/unnamed-chunk-1-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sd1<-}\KeywordTok{apply}\NormalTok{(pigs,}\DecValTok{2}\NormalTok{,sd)}
+\NormalTok{pigs2<-}\KeywordTok{data.frame}\NormalTok{(pigs)}
+\KeywordTok{colnames}\NormalTok{(pigs2)<-}\DecValTok{1}\OperatorTok{:}\DecValTok{9}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfcol=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{boxplot}\NormalTok{(pigs2,}\DataTypeTok{xlab=}\StringTok{"Time in Weeks"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"Weight"}\NormalTok{,}\DataTypeTok{col=}\DecValTok{5}\NormalTok{,}\DataTypeTok{main=}\StringTok{"Pigs Weight Growth"}\NormalTok{,}\DataTypeTok{cex=}\FloatTok{0.75}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{9}\NormalTok{,sd1,}\DataTypeTok{xlab=}\StringTok{"Time in Weeks"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"Std. Dev of Weight"}\NormalTok{,}\DataTypeTok{main=}\StringTok{"Pigs Weight Growth"}\NormalTok{,}\DataTypeTok{col=}\DecValTok{5}\NormalTok{,}\DataTypeTok{pch=}\DecValTok{19}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\KeywordTok{lm}\NormalTok{(sd1}\OperatorTok{~}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{9}\NormalTok{)),}\DataTypeTok{lty=}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{week1_EDA_Sample_code_files/figure-latex/unnamed-chunk-1-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pigs3<-}\KeywordTok{sweep}\NormalTok{(pigs,}\DecValTok{2}\NormalTok{,}\KeywordTok{apply}\NormalTok{(pigs,}\DecValTok{2}\NormalTok{,mean))}
+\NormalTok{pigs3<-}\KeywordTok{sweep}\NormalTok{(pigs3,}\DecValTok{2}\NormalTok{,sd1,}\DataTypeTok{FUN=}\StringTok{"/"}\NormalTok{)}
+\KeywordTok{matplot}\NormalTok{(}\KeywordTok{t}\NormalTok{(pigs3),}\DataTypeTok{type=}\StringTok{"l"}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"Time in Weeks"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"Standardized Weight"}\NormalTok{,}\DataTypeTok{lwd=}\DecValTok{1}\NormalTok{,}\DataTypeTok{main=}\StringTok{"Pigs Weight Growth"}\NormalTok{)}
+\NormalTok{pigs4<-}\KeywordTok{as.vector}\NormalTok{(}\KeywordTok{t}\NormalTok{(pigs))}
+\NormalTok{times<-}\KeywordTok{rep}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{9}\NormalTok{,}\DecValTok{48}\NormalTok{)}
+\NormalTok{fit4<-}\KeywordTok{loess.smooth}\NormalTok{(times,pigs4)}
+\NormalTok{fit5<-}\KeywordTok{apply}\NormalTok{(pigs,}\DecValTok{2}\NormalTok{,mean)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{week1_EDA_Sample_code_files/figure-latex/unnamed-chunk-1-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# CD4+ data exploration}
+\NormalTok{macs<-}\KeywordTok{read.table}\NormalTok{(}\StringTok{"./MACS.txt"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{,}\DataTypeTok{header=}\OtherTok{TRUE}\NormalTok{)}
+\CommentTok{# SMoothing kernel}
+\NormalTok{x<-macs}\OperatorTok{$}\NormalTok{time}
+\NormalTok{y<-macs}\OperatorTok{$}\NormalTok{cd4}
+\NormalTok{sid<-macs}\OperatorTok{$}\NormalTok{id}
+
+\NormalTok{len<-}\KeywordTok{sapply}\NormalTok{(}\KeywordTok{split}\NormalTok{(x,sid),length)}
+\NormalTok{id<-}\KeywordTok{which}\NormalTok{(len}\OperatorTok{>=}\DecValTok{7}\NormalTok{)}
+\NormalTok{id<-}\KeywordTok{sample}\NormalTok{(id,}\DecValTok{100}\NormalTok{,}\DataTypeTok{replace=}\OtherTok{FALSE}\NormalTok{)}
+\NormalTok{pid<-}\KeywordTok{unique}\NormalTok{(sid)}
+\NormalTok{pid<-pid[id]}
+\NormalTok{pid<-sid}\OperatorTok{%in%}\NormalTok{pid}
+\NormalTok{x<-x[pid]}
+\NormalTok{y<-y[pid]}
+\NormalTok{sid<-sid[pid]}
+\NormalTok{macs<-macs[pid,]}
+
+
+\NormalTok{k1<-}\KeywordTok{ksmooth}\NormalTok{(x,y,}\DataTypeTok{kernel=}\StringTok{"normal"}\NormalTok{,}\DataTypeTok{bandwidth=}\FloatTok{0.1}\NormalTok{)}
+\NormalTok{k2<-}\KeywordTok{ksmooth}\NormalTok{(x,y,}\DataTypeTok{kernel=}\StringTok{"normal"}\NormalTok{,}\DataTypeTok{bandwidth=}\FloatTok{0.5}\NormalTok{)}
+\NormalTok{k3<-}\KeywordTok{ksmooth}\NormalTok{(x,y,}\DataTypeTok{kernel=}\StringTok{"normal"}\NormalTok{,}\DataTypeTok{bandwidth=}\FloatTok{1.0}\NormalTok{)}
+\NormalTok{k4<-}\KeywordTok{ksmooth}\NormalTok{(x,y,}\DataTypeTok{kernel=}\StringTok{"normal"}\NormalTok{,}\DataTypeTok{bandwidth=}\FloatTok{2.0}\NormalTok{)}
+\NormalTok{ylims<-}\KeywordTok{c}\NormalTok{(}\DecValTok{400}\NormalTok{,}\DecValTok{1200}\NormalTok{)}
+\NormalTok{xlims<-}\KeywordTok{range}\NormalTok{(x)}
+\KeywordTok{plot}\NormalTok{(x,y,}\DataTypeTok{pch=}\DecValTok{19}\NormalTok{,}\DataTypeTok{cex=}\FloatTok{0.5}\NormalTok{,}\DataTypeTok{xlim=}\NormalTok{xlims,}\DataTypeTok{ylim=}\NormalTok{ylims,}\DataTypeTok{col=}\StringTok{"gray"}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"Years since Seroconversion"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"CD4+ Count"}\NormalTok{,}\DataTypeTok{main=}\StringTok{"Kernel Smoothers"}\NormalTok{)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{new=}\NormalTok{T)}
+\KeywordTok{plot}\NormalTok{(k1,}\DataTypeTok{type=}\StringTok{"l"}\NormalTok{,}\DataTypeTok{col=}\DecValTok{5}\NormalTok{,}\DataTypeTok{xlim=}\NormalTok{xlims,}\DataTypeTok{ylim=}\NormalTok{ylims,}\DataTypeTok{lwd=}\DecValTok{3}\NormalTok{,}\DataTypeTok{lty=}\DecValTok{4}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"Years since Seroconversion"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"CD4+ Count"}\NormalTok{,}\DataTypeTok{main=}\StringTok{"Kernel Smoothers"}\NormalTok{)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{new=}\NormalTok{T)}
+\KeywordTok{plot}\NormalTok{(k2,}\DataTypeTok{type=}\StringTok{"l"}\NormalTok{,}\DataTypeTok{col=}\DecValTok{4}\NormalTok{,}\DataTypeTok{xlim=}\NormalTok{xlims,}\DataTypeTok{ylim=}\NormalTok{ylims,}\DataTypeTok{lwd=}\DecValTok{3}\NormalTok{,}\DataTypeTok{lty=}\DecValTok{3}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"Years since Seroconversion"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"CD4+ Count"}\NormalTok{,}\DataTypeTok{main=}\StringTok{"Kernel Smoothers"}\NormalTok{)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{new=}\NormalTok{T)}
+\KeywordTok{plot}\NormalTok{(k3,}\DataTypeTok{type=}\StringTok{"l"}\NormalTok{,}\DataTypeTok{col=}\DecValTok{3}\NormalTok{,}\DataTypeTok{xlim=}\NormalTok{xlims,}\DataTypeTok{ylim=}\NormalTok{ylims,}\DataTypeTok{lwd=}\DecValTok{3}\NormalTok{,}\DataTypeTok{lty=}\DecValTok{2}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"Years since Seroconversion"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"CD4+ Count"}\NormalTok{,}\DataTypeTok{main=}\StringTok{"Kernel Smoothers"}\NormalTok{)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{new=}\NormalTok{T)}
+\KeywordTok{plot}\NormalTok{(k4,}\DataTypeTok{type=}\StringTok{"l"}\NormalTok{,}\DataTypeTok{col=}\DecValTok{2}\NormalTok{,}\DataTypeTok{xlim=}\NormalTok{xlims,}\DataTypeTok{ylim=}\NormalTok{ylims,}\DataTypeTok{lwd=}\DecValTok{3}\NormalTok{,}\DataTypeTok{lty=}\DecValTok{1}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"Years since Seroconversion"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"CD4+ Count"}\NormalTok{,}\DataTypeTok{main=}\StringTok{"Kernel Smoothers"}\NormalTok{)}
+\NormalTok{temp <-}\StringTok{ }\KeywordTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\DataTypeTok{legend =} \KeywordTok{c}\NormalTok{(}\StringTok{" "}\NormalTok{, }\StringTok{" "}\NormalTok{,}\StringTok{" "}\NormalTok{,}\StringTok{" "}\NormalTok{),}
+               \DataTypeTok{text.width =} \KeywordTok{strwidth}\NormalTok{(}\StringTok{"Bandwidth"}\NormalTok{),}
+               \DataTypeTok{lty =} \KeywordTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{), }\DataTypeTok{col=}\KeywordTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{2}\NormalTok{), }\DataTypeTok{lwd=}\DecValTok{3}\NormalTok{,}\DataTypeTok{xjust =} \DecValTok{1}\NormalTok{, }\DataTypeTok{yjust =} \DecValTok{1}\NormalTok{,}
+               \DataTypeTok{title =} \StringTok{"Bandwidth"}\NormalTok{)}
+\KeywordTok{text}\NormalTok{(temp}\OperatorTok{$}\NormalTok{rect}\OperatorTok{$}\NormalTok{left }\OperatorTok{+}\StringTok{ }\NormalTok{temp}\OperatorTok{$}\NormalTok{rect}\OperatorTok{$}\NormalTok{w, temp}\OperatorTok{$}\NormalTok{text}\OperatorTok{$}\NormalTok{y,}
+     \KeywordTok{c}\NormalTok{(}\StringTok{"0.10"}\NormalTok{, }\StringTok{"0.50"}\NormalTok{,}\StringTok{"1.0"}\NormalTok{,}\StringTok{"2.0"}\NormalTok{), }\DataTypeTok{pos=}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{week1_EDA_Sample_code_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# comparing smoothers}
+\NormalTok{k1<-}\KeywordTok{ksmooth}\NormalTok{(x,y,}\DataTypeTok{kernel=}\StringTok{"normal"}\NormalTok{,}\DataTypeTok{bandwidth=}\FloatTok{1.0}\NormalTok{)}
+\NormalTok{s1<-}\KeywordTok{smooth.spline}\NormalTok{(x,y)}
+\NormalTok{l1<-}\KeywordTok{loess.smooth}\NormalTok{(x,y,}\DataTypeTok{span=}\FloatTok{0.5}\NormalTok{,}\DataTypeTok{family=}\StringTok{"gaussian"}\NormalTok{,}\DataTypeTok{evaluation=}\KeywordTok{length}\NormalTok{(x))}
+\NormalTok{ylims<-}\KeywordTok{c}\NormalTok{(}\DecValTok{400}\NormalTok{,}\DecValTok{1200}\NormalTok{)}
+\NormalTok{xlims<-}\KeywordTok{range}\NormalTok{(x)}
+\KeywordTok{plot}\NormalTok{(x,y,}\DataTypeTok{pch=}\DecValTok{19}\NormalTok{,}\DataTypeTok{cex=}\FloatTok{0.5}\NormalTok{,}\DataTypeTok{xlim=}\NormalTok{xlims,}\DataTypeTok{ylim=}\NormalTok{ylims,}\DataTypeTok{col=}\StringTok{"gray"}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"Years since Seroconversion"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"CD4+ Count"}\NormalTok{,}\DataTypeTok{main=}\StringTok{"Comparing Smoothers"}\NormalTok{)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{new=}\NormalTok{T)}
+\KeywordTok{plot}\NormalTok{(k1,}\DataTypeTok{type=}\StringTok{"l"}\NormalTok{,}\DataTypeTok{col=}\DecValTok{5}\NormalTok{,}\DataTypeTok{xlim=}\NormalTok{xlims,}\DataTypeTok{ylim=}\NormalTok{ylims,}\DataTypeTok{lwd=}\DecValTok{3}\NormalTok{,}\DataTypeTok{lty=}\DecValTok{4}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"Years since Seroconversion"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"CD4+ Count"}\NormalTok{,}\DataTypeTok{main=}\StringTok{"Comparing Smoothers"}\NormalTok{)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{new=}\NormalTok{T)}
+\KeywordTok{plot}\NormalTok{(s1,}\DataTypeTok{type=}\StringTok{"l"}\NormalTok{,}\DataTypeTok{col=}\DecValTok{4}\NormalTok{,}\DataTypeTok{xlim=}\NormalTok{xlims,}\DataTypeTok{ylim=}\NormalTok{ylims,}\DataTypeTok{lwd=}\DecValTok{3}\NormalTok{,}\DataTypeTok{lty=}\DecValTok{3}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"Years since Seroconversion"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"CD4+ Count"}\NormalTok{,}\DataTypeTok{main=}\StringTok{"Comparing Smoothers"}\NormalTok{)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{new=}\NormalTok{T)}
+\KeywordTok{plot}\NormalTok{(l1,}\DataTypeTok{type=}\StringTok{"l"}\NormalTok{,}\DataTypeTok{col=}\DecValTok{3}\NormalTok{,}\DataTypeTok{xlim=}\NormalTok{xlims,}\DataTypeTok{ylim=}\NormalTok{ylims,}\DataTypeTok{lwd=}\DecValTok{3}\NormalTok{,}\DataTypeTok{lty=}\DecValTok{2}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"Years since Seroconversion"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"CD4+ Count"}\NormalTok{,}\DataTypeTok{main=}\StringTok{"Comparing Smoothers"}\NormalTok{)}
+\NormalTok{temp <-}\StringTok{ }\KeywordTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\DataTypeTok{legend =} \KeywordTok{c}\NormalTok{(}\StringTok{" "}\NormalTok{, }\StringTok{" "}\NormalTok{,}\StringTok{" "}\NormalTok{),}
+               \DataTypeTok{text.width =} \KeywordTok{strwidth}\NormalTok{(}\StringTok{"Smoothers"}\NormalTok{),}
+               \DataTypeTok{lty =} \KeywordTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{2}\NormalTok{), }\DataTypeTok{col=}\KeywordTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{3}\NormalTok{), }\DataTypeTok{lwd=}\DecValTok{3}\NormalTok{,}\DataTypeTok{xjust =} \DecValTok{1}\NormalTok{, }\DataTypeTok{yjust =} \DecValTok{1}\NormalTok{,}
+               \DataTypeTok{title =} \StringTok{"Smoothers"}\NormalTok{)}
+\KeywordTok{text}\NormalTok{(temp}\OperatorTok{$}\NormalTok{rect}\OperatorTok{$}\NormalTok{left }\OperatorTok{+}\StringTok{ }\NormalTok{temp}\OperatorTok{$}\NormalTok{rect}\OperatorTok{$}\NormalTok{w, temp}\OperatorTok{$}\NormalTok{text}\OperatorTok{$}\NormalTok{y,}
+     \KeywordTok{c}\NormalTok{(}\StringTok{"Kernel"}\NormalTok{, }\StringTok{"Spline"}\NormalTok{,}\StringTok{"LOWESS"}\NormalTok{), }\DataTypeTok{pos=}\DecValTok{2}\NormalTok{)}
+\CommentTok{# Time plot / profile plot}
+\KeywordTok{library}\NormalTok{(lattice)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{week1_EDA_Sample_code_files/figure-latex/unnamed-chunk-2-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{xyplot}\NormalTok{(cd4}\OperatorTok{~}\NormalTok{time,}\DataTypeTok{groups=}\NormalTok{id,}\DataTypeTok{data=}\NormalTok{macs,}\DataTypeTok{type=}\StringTok{"l"}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"Years since Seroconversion"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"CD4+ Count"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{week1_EDA_Sample_code_files/figure-latex/unnamed-chunk-2-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{xyplot}\NormalTok{(cd4}\OperatorTok{~}\NormalTok{time,}\DataTypeTok{groups=}\NormalTok{id,}\DataTypeTok{data=}\NormalTok{macs,}\DataTypeTok{type=}\StringTok{"l"}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"Years since Seroconversion"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"CD4+ Count"}\NormalTok{,}\DataTypeTok{col=}\StringTok{"lightgray"}\NormalTok{,}
+       \DataTypeTok{panel=}\ControlFlowTok{function}\NormalTok{(...)\{}
+         \KeywordTok{panel.xyplot}\NormalTok{(...)}
+         \KeywordTok{panel.loess}\NormalTok{(x,y)}
+\NormalTok{       \}}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{week1_EDA_Sample_code_files/figure-latex/unnamed-chunk-2-4.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{len<-}\KeywordTok{length}\NormalTok{(}\KeywordTok{unique}\NormalTok{(macs}\OperatorTok{$}\NormalTok{id))}
+\NormalTok{id2<-}\KeywordTok{rbinom}\NormalTok{(len,}\DecValTok{1}\NormalTok{,}\DataTypeTok{p=}\FloatTok{0.05}\NormalTok{)}
+\NormalTok{id2[id2}\OperatorTok{==}\DecValTok{0}\NormalTok{]<-}\StringTok{"lightgray"}
+\NormalTok{id2[id2}\OperatorTok{==}\DecValTok{1}\NormalTok{]<-}\StringTok{"red"}
+\KeywordTok{xyplot}\NormalTok{(cd4}\OperatorTok{~}\NormalTok{time,}\DataTypeTok{groups=}\NormalTok{id,}\DataTypeTok{data=}\NormalTok{macs,}\DataTypeTok{type=}\StringTok{"l"}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"Years since Seroconversion"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"CD4+ Count"}\NormalTok{,}\DataTypeTok{col=}\NormalTok{id2)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{week1_EDA_Sample_code_files/figure-latex/unnamed-chunk-2-5.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# PLotting residuals}
+\NormalTok{ind<-}\KeywordTok{sapply}\NormalTok{(x,}\ControlFlowTok{function}\NormalTok{(z)\{}\KeywordTok{order}\NormalTok{(}\KeywordTok{abs}\NormalTok{(z}\OperatorTok{-}\NormalTok{l1}\OperatorTok{$}\NormalTok{x))[}\DecValTok{1}\NormalTok{]\})}
+\NormalTok{fit<-l1}\OperatorTok{$}\NormalTok{y[ind]}
+\NormalTok{res<-y}\OperatorTok{-}\NormalTok{fit}
+\NormalTok{res2<-}\KeywordTok{split}\NormalTok{(res,sid)}
+\NormalTok{id<-}\OtherTok{NULL}
+\NormalTok{z1<-}\KeywordTok{sapply}\NormalTok{(res2,median)}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\FloatTok{0.05}\NormalTok{,}\FloatTok{0.1}\NormalTok{,}\FloatTok{0.25}\NormalTok{,}\FloatTok{0.5}\NormalTok{,}\FloatTok{0.75}\NormalTok{,}\FloatTok{0.90}\NormalTok{,}\FloatTok{0.95}\NormalTok{,}\DecValTok{1}\NormalTok{))\{}
+\NormalTok{  z2<-}\KeywordTok{order}\NormalTok{(}\KeywordTok{abs}\NormalTok{(z1}\OperatorTok{-}\KeywordTok{quantile}\NormalTok{(z1,i)))[}\DecValTok{1}\NormalTok{]}
+\NormalTok{  id<-}\KeywordTok{c}\NormalTok{(id,z2)}
+\NormalTok{\}}
+\NormalTok{len<-}\KeywordTok{length}\NormalTok{(}\KeywordTok{unique}\NormalTok{(macs}\OperatorTok{$}\NormalTok{id))}
+\NormalTok{id2<-}\KeywordTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{,len)}
+\NormalTok{id2[id]<-}\DecValTok{1}
+\NormalTok{id2[id2}\OperatorTok{==}\DecValTok{0}\NormalTok{]<-}\StringTok{"lightgray"}
+\NormalTok{id2[id2}\OperatorTok{==}\DecValTok{1}\NormalTok{]<-}\StringTok{"red"}
+\NormalTok{macs2<-}\KeywordTok{cbind}\NormalTok{(macs,res)}
+\KeywordTok{xyplot}\NormalTok{(res}\OperatorTok{~}\NormalTok{time,}\DataTypeTok{groups=}\NormalTok{id,}\DataTypeTok{data=}\NormalTok{macs2,}\DataTypeTok{type=}\StringTok{"l"}\NormalTok{,}\DataTypeTok{lwd=}\FloatTok{0.5}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"Years since Seroconversion"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"CD4+ Count"}\NormalTok{,}\DataTypeTok{col=}\NormalTok{id2)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{week1_EDA_Sample_code_files/figure-latex/unnamed-chunk-2-6.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# variogram}
+\KeywordTok{library}\NormalTok{(nlme)}
+\NormalTok{u<-}\KeywordTok{lapply}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{(}\KeywordTok{length}\NormalTok{(x)}\OperatorTok{-}\DecValTok{1}\NormalTok{),}\ControlFlowTok{function}\NormalTok{(i)\{}\KeywordTok{abs}\NormalTok{(x[i]}\OperatorTok{-}\NormalTok{x[}\OperatorTok{-}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{i)])\})}
+\NormalTok{gam1<-}\KeywordTok{Variogram}\NormalTok{(res,}\KeywordTok{unlist}\NormalTok{(u))}
+\NormalTok{gam2<-gam1}\OperatorTok{$}\NormalTok{variog}
+\NormalTok{u2<-gam1}\OperatorTok{$}\NormalTok{dist}
+\NormalTok{id<-}\KeywordTok{which}\NormalTok{(u2}\OperatorTok{<=}\DecValTok{6}\NormalTok{)}
+\NormalTok{u2<-u2[id]}
+\NormalTok{gam2<-gam2[id]}
+\NormalTok{id<-}\KeywordTok{which}\NormalTok{(gam2}\OperatorTok{<=}\DecValTok{160000}\NormalTok{)}
+\NormalTok{gam2<-gam2[id]}
+\NormalTok{u2<-u2[id]}
+\NormalTok{ylims=}\KeywordTok{range}\NormalTok{(gam2)}
+\NormalTok{xlims<-}\KeywordTok{range}\NormalTok{(u2)}
+\NormalTok{junk<-}\KeywordTok{loess.smooth}\NormalTok{(u2,gam2,}\DataTypeTok{evaluation=}\KeywordTok{length}\NormalTok{(u2),}\DataTypeTok{span=}\FloatTok{0.5}\NormalTok{)}
+\NormalTok{sid<-macs}\OperatorTok{$}\NormalTok{id}
+\NormalTok{sigma<-}\KeywordTok{lapply}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{(}\KeywordTok{length}\NormalTok{(y)}\OperatorTok{-}\DecValTok{1}\NormalTok{),}\ControlFlowTok{function}\NormalTok{(i)\{res[i]}\OperatorTok{-}\NormalTok{res[sid}\OperatorTok{!=}\NormalTok{sid[i]]\})}
+\NormalTok{sigma<-}\KeywordTok{mean}\NormalTok{(((}\KeywordTok{unlist}\NormalTok{(sigma))}\OperatorTok{^}\DecValTok{2}\NormalTok{)}\OperatorTok{/}\DecValTok{2}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(u2,gam2,}\DataTypeTok{cex=}\FloatTok{0.001}\NormalTok{,}\DataTypeTok{pch=}\DecValTok{19}\NormalTok{,}\DataTypeTok{ylim=}\NormalTok{ylims,}\DataTypeTok{xlim=}\NormalTok{xlims,}\DataTypeTok{xlab=}\StringTok{"Distance"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"Variogram"}\NormalTok{)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{new=}\NormalTok{T)}
+\KeywordTok{plot}\NormalTok{(junk,}\DataTypeTok{ylim=}\NormalTok{ylims,}\DataTypeTok{xlim=}\NormalTok{xlims,}\DataTypeTok{type=}\StringTok{"l"}\NormalTok{,}\DataTypeTok{col=}\DecValTok{2}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"Distance"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"Variogram"}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\NormalTok{sigma,}\DataTypeTok{lty=}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{week1_EDA_Sample_code_files/figure-latex/unnamed-chunk-2-7.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rho<-}\DecValTok{1}\OperatorTok{-}\NormalTok{(junk}\OperatorTok{$}\NormalTok{y}\OperatorTok{/}\NormalTok{sigma)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfcol=}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(junk,}\DataTypeTok{type=}\StringTok{"l"}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"Distance"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"Variogram"}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(junk}\OperatorTok{$}\NormalTok{x,rho,}\DataTypeTok{type=}\StringTok{"l"}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"Distance"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"Correlation"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{week1_EDA_Sample_code_files/figure-latex/unnamed-chunk-2-8.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# CESD}
+\NormalTok{y2<-macs}\OperatorTok{$}\NormalTok{cesd}
+\NormalTok{l2<-}\KeywordTok{loess.smooth}\NormalTok{(x,y2,}\DataTypeTok{span=}\FloatTok{0.5}\NormalTok{,}\DataTypeTok{family=}\StringTok{"gaussian"}\NormalTok{,}\DataTypeTok{evaluation=}\KeywordTok{length}\NormalTok{(x))}
+\NormalTok{ind<-}\KeywordTok{sapply}\NormalTok{(x,}\ControlFlowTok{function}\NormalTok{(z)\{}\KeywordTok{order}\NormalTok{(}\KeywordTok{abs}\NormalTok{(z}\OperatorTok{-}\NormalTok{l2}\OperatorTok{$}\NormalTok{x))[}\DecValTok{1}\NormalTok{]\})}
+\NormalTok{fit2<-l2}\OperatorTok{$}\NormalTok{y[ind]}
+\NormalTok{res2<-y2}\OperatorTok{-}\NormalTok{fit2}
+\KeywordTok{scatter.smooth}\NormalTok{(res2,res,}\DataTypeTok{pch=}\DecValTok{19}\NormalTok{,}\DataTypeTok{cex=}\FloatTok{0.2}\NormalTok{,}\DataTypeTok{col=}\StringTok{"lightgray"}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"CESD Residuals"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"CD4+ Residuals"}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\DecValTok{0}\NormalTok{,}\DataTypeTok{lty=}\DecValTok{2}\NormalTok{)}
+\CommentTok{# Seperate baseline and longitudinal effects}
+\NormalTok{x4<-}\KeywordTok{split}\NormalTok{(macs}\OperatorTok{$}\NormalTok{time,macs}\OperatorTok{$}\NormalTok{id)}
+\NormalTok{y41<-}\KeywordTok{split}\NormalTok{(macs}\OperatorTok{$}\NormalTok{cd4,macs}\OperatorTok{$}\NormalTok{id)}
+\NormalTok{y42<-}\KeywordTok{split}\NormalTok{(macs}\OperatorTok{$}\NormalTok{cesd,macs}\OperatorTok{$}\NormalTok{id)}
+\CommentTok{# baseline effects}
+\NormalTok{x4b<-}\KeywordTok{sapply}\NormalTok{(x4,}\ControlFlowTok{function}\NormalTok{(z)\{z[}\DecValTok{1}\NormalTok{]\})}
+\NormalTok{y41b<-}\KeywordTok{sapply}\NormalTok{(y41,}\ControlFlowTok{function}\NormalTok{(z)\{z[}\DecValTok{1}\NormalTok{]\})}
+\NormalTok{y42b<-}\KeywordTok{sapply}\NormalTok{(y42,}\ControlFlowTok{function}\NormalTok{(z)\{z[}\DecValTok{1}\NormalTok{]\})}
+\NormalTok{l41<-}\KeywordTok{loess.smooth}\NormalTok{(x4b,y41b,}\DataTypeTok{span=}\FloatTok{0.5}\NormalTok{,}\DataTypeTok{family=}\StringTok{"gaussian"}\NormalTok{,}\DataTypeTok{evaluation=}\KeywordTok{length}\NormalTok{(x4b))}
+\NormalTok{l42<-}\KeywordTok{loess.smooth}\NormalTok{(x4b,y42b,}\DataTypeTok{span=}\FloatTok{0.5}\NormalTok{,}\DataTypeTok{family=}\StringTok{"gaussian"}\NormalTok{,}\DataTypeTok{evaluation=}\KeywordTok{length}\NormalTok{(x4b))}
+\NormalTok{ind<-}\KeywordTok{sapply}\NormalTok{(x4b,}\ControlFlowTok{function}\NormalTok{(z)\{}\KeywordTok{order}\NormalTok{(}\KeywordTok{abs}\NormalTok{(z}\OperatorTok{-}\NormalTok{l41}\OperatorTok{$}\NormalTok{x))[}\DecValTok{1}\NormalTok{]\})}
+\NormalTok{fit41<-l41}\OperatorTok{$}\NormalTok{y[ind]}
+\NormalTok{res41<-y41b}\OperatorTok{-}\NormalTok{fit41}
+\NormalTok{ind<-}\KeywordTok{sapply}\NormalTok{(x4b,}\ControlFlowTok{function}\NormalTok{(z)\{}\KeywordTok{order}\NormalTok{(}\KeywordTok{abs}\NormalTok{(z}\OperatorTok{-}\NormalTok{l42}\OperatorTok{$}\NormalTok{x))[}\DecValTok{1}\NormalTok{]\})}
+\NormalTok{fit42<-l42}\OperatorTok{$}\NormalTok{y[ind]}
+\NormalTok{res42<-y42b}\OperatorTok{-}\NormalTok{fit42}
+\KeywordTok{scatter.smooth}\NormalTok{(res42,res41,}\DataTypeTok{pch=}\DecValTok{19}\NormalTok{,}\DataTypeTok{cex=}\FloatTok{0.2}\NormalTok{,}\DataTypeTok{col=}\StringTok{"lightgray"}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"CESD Residuals"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"CD4+ Residuals"}\NormalTok{,}\DataTypeTok{main=}\StringTok{"Baseline"}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\DecValTok{0}\NormalTok{,}\DataTypeTok{lty=}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{week1_EDA_Sample_code_files/figure-latex/unnamed-chunk-2-9.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# longitudinal effects}
+\NormalTok{x4b<-}\KeywordTok{unlist}\NormalTok{(}\KeywordTok{sapply}\NormalTok{(x4,}\ControlFlowTok{function}\NormalTok{(z)\{}\KeywordTok{diff}\NormalTok{(z)\}))}
+\NormalTok{y41b<-}\KeywordTok{unlist}\NormalTok{(}\KeywordTok{sapply}\NormalTok{(y41,}\ControlFlowTok{function}\NormalTok{(z)\{}\KeywordTok{diff}\NormalTok{(z)\}))}
+\NormalTok{y42b<-}\KeywordTok{unlist}\NormalTok{(}\KeywordTok{sapply}\NormalTok{(y42,}\ControlFlowTok{function}\NormalTok{(z)\{}\KeywordTok{diff}\NormalTok{(z)\}))}
+\NormalTok{l41<-}\KeywordTok{loess.smooth}\NormalTok{(x4b,y41b,}\DataTypeTok{span=}\FloatTok{0.5}\NormalTok{,}\DataTypeTok{family=}\StringTok{"gaussian"}\NormalTok{,}\DataTypeTok{evaluation=}\KeywordTok{length}\NormalTok{(x4b))}
+\NormalTok{l42<-}\KeywordTok{loess.smooth}\NormalTok{(x4b,y42b,}\DataTypeTok{span=}\FloatTok{0.5}\NormalTok{,}\DataTypeTok{family=}\StringTok{"gaussian"}\NormalTok{,}\DataTypeTok{evaluation=}\KeywordTok{length}\NormalTok{(x4b))}
+\NormalTok{ind<-}\KeywordTok{sapply}\NormalTok{(x4b,}\ControlFlowTok{function}\NormalTok{(z)\{}\KeywordTok{order}\NormalTok{(}\KeywordTok{abs}\NormalTok{(z}\OperatorTok{-}\NormalTok{l41}\OperatorTok{$}\NormalTok{x))[}\DecValTok{1}\NormalTok{]\})}
+\NormalTok{fit41<-l41}\OperatorTok{$}\NormalTok{y[ind]}
+\NormalTok{res41<-y41b}\OperatorTok{-}\NormalTok{fit41}
+\NormalTok{ind<-}\KeywordTok{sapply}\NormalTok{(x4b,}\ControlFlowTok{function}\NormalTok{(z)\{}\KeywordTok{order}\NormalTok{(}\KeywordTok{abs}\NormalTok{(z}\OperatorTok{-}\NormalTok{l42}\OperatorTok{$}\NormalTok{x))[}\DecValTok{1}\NormalTok{]\})}
+\NormalTok{fit42<-l42}\OperatorTok{$}\NormalTok{y[ind]}
+\NormalTok{res42<-y42b}\OperatorTok{-}\NormalTok{fit42}
+\KeywordTok{scatter.smooth}\NormalTok{(res42,res41,}\DataTypeTok{pch=}\DecValTok{19}\NormalTok{,}\DataTypeTok{cex=}\FloatTok{0.2}\NormalTok{,}\DataTypeTok{col=}\StringTok{"lightgray"}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"CESD Residuals"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"CD4+ Residuals"}\NormalTok{,}\DataTypeTok{main=}\StringTok{"Longitudinal"}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\DecValTok{0}\NormalTok{,}\DataTypeTok{lty=}\DecValTok{2}\NormalTok{)}
+
+\CommentTok{# Exploring correlation}
+\NormalTok{pigs<-}\KeywordTok{read.table}\NormalTok{(}\StringTok{"PIGS.txt"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{,}\DataTypeTok{header=}\OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{colnames}\NormalTok{(pigs)<-}\DecValTok{1}\OperatorTok{:}\DecValTok{9}
+\NormalTok{junk1<-}\KeywordTok{medpolish}\NormalTok{(pigs)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 1: 736.5
+## 2: 591
+## Final: 591
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{res<-junk1}\OperatorTok{$}\NormalTok{res}
+\NormalTok{cols<-}\KeywordTok{rep}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{48}\NormalTok{,}\KeywordTok{rep}\NormalTok{(}\DecValTok{9}\NormalTok{,}\DecValTok{48}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(}\KeywordTok{as.vector}\NormalTok{(}\KeywordTok{t}\NormalTok{(res)),}\DataTypeTok{col=}\NormalTok{cols,}\DataTypeTok{pch=}\DecValTok{19}\NormalTok{,}\DataTypeTok{cex=}\FloatTok{0.8}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"Pigs"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"Residuals"}\NormalTok{,}\DataTypeTok{main=}\StringTok{"Residuals Using Median Polish"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{week1_EDA_Sample_code_files/figure-latex/unnamed-chunk-2-10.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(junk1}\OperatorTok{$}\NormalTok{col,}\DataTypeTok{xlab=}\StringTok{"Time"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"Week Effect"}\NormalTok{,}\DataTypeTok{main=}\StringTok{"Week Effect from Median Polish"}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(junk1}\OperatorTok{$}\NormalTok{row,}\DataTypeTok{xlab=}\StringTok{"Time"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"Pig Effect"}\NormalTok{,}\DataTypeTok{main=}\StringTok{"Pig Effect from Median Polish"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{week1_EDA_Sample_code_files/figure-latex/unnamed-chunk-2-11.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{acf}\NormalTok{(}\KeywordTok{as.vector}\NormalTok{(}\KeywordTok{t}\NormalTok{(res)),}\DataTypeTok{main=}\StringTok{"Correlation in Pigs Data"}\NormalTok{)}
+\KeywordTok{library}\NormalTok{(psych)}
+\KeywordTok{pairs.panels}\NormalTok{(res,}\DataTypeTok{lm=}\OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{week1_EDA_Sample_code_files/figure-latex/unnamed-chunk-2-12.pdf}
+\includegraphics{week1_EDA_Sample_code_files/figure-latex/unnamed-chunk-2-13.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mu<-}\KeywordTok{apply}\NormalTok{(pigs,}\DecValTok{2}\NormalTok{,mean)}
+\NormalTok{res<-}\KeywordTok{sweep}\NormalTok{(pigs,}\DecValTok{2}\NormalTok{,mu)}
+\NormalTok{cols<-}\KeywordTok{rep}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{48}\NormalTok{,}\KeywordTok{rep}\NormalTok{(}\DecValTok{9}\NormalTok{,}\DecValTok{48}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(}\KeywordTok{as.vector}\NormalTok{(}\KeywordTok{t}\NormalTok{(res)),}\DataTypeTok{col=}\NormalTok{cols,}\DataTypeTok{pch=}\DecValTok{19}\NormalTok{,}\DataTypeTok{cex=}\FloatTok{0.8}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"Pigs"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"Residuals"}\NormalTok{,}\DataTypeTok{main=}\StringTok{"Residuals Using Simple Mean"}\NormalTok{)}
+
+
+\CommentTok{# ACF}
+\KeywordTok{library}\NormalTok{(languageR)}
+\NormalTok{a<-}\KeywordTok{t}\NormalTok{(}\KeywordTok{sapply}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{100}\NormalTok{,}\ControlFlowTok{function}\NormalTok{(z)\{}\KeywordTok{arima.sim}\NormalTok{(}\DecValTok{9}\NormalTok{,}\DataTypeTok{model=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{ar=}\KeywordTok{c}\NormalTok{(}\FloatTok{0.8}\NormalTok{,}\OperatorTok{-}\FloatTok{0.3}\NormalTok{)))\}))}
+\NormalTok{b<-}\KeywordTok{as.vector}\NormalTok{(}\KeywordTok{t}\NormalTok{(a))}
+\NormalTok{id<-}\KeywordTok{rep}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{100}\NormalTok{,}\KeywordTok{rep}\NormalTok{(}\DecValTok{9}\NormalTok{,}\DecValTok{100}\NormalTok{))}
+\NormalTok{times<-}\KeywordTok{rep}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{9}\NormalTok{,}\DecValTok{100}\NormalTok{)}
+\NormalTok{zz<-}\KeywordTok{cbind}\NormalTok{(times,b,id)}
+\NormalTok{zz<-}\KeywordTok{as.data.frame}\NormalTok{(zz)}
+\NormalTok{zz2<-zz[}\DecValTok{1}\OperatorTok{:}\NormalTok{(}\DecValTok{12}\OperatorTok{*}\DecValTok{9}\NormalTok{),]}
+\NormalTok{zz2[,}\DecValTok{3}\NormalTok{]<-}\KeywordTok{as.factor}\NormalTok{(zz2[,}\DecValTok{3}\NormalTok{])}
+\NormalTok{zz[,}\DecValTok{3}\NormalTok{]<-}\KeywordTok{as.factor}\NormalTok{(zz[,}\DecValTok{3}\NormalTok{])}
+\KeywordTok{colnames}\NormalTok{(zz)<-}\KeywordTok{c}\NormalTok{(}\StringTok{"times"}\NormalTok{,}\StringTok{"b"}\NormalTok{,}\StringTok{"id"}\NormalTok{)}
+\KeywordTok{xyplot}\NormalTok{(b}\OperatorTok{~}\NormalTok{times}\OperatorTok{|}\NormalTok{id,}\DataTypeTok{data=}\NormalTok{zz[}\DecValTok{1}\OperatorTok{:}\NormalTok{(}\DecValTok{12}\OperatorTok{*}\DecValTok{9}\NormalTok{),],}\DataTypeTok{pch=}\DecValTok{20}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"Time"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"Residuals"}\NormalTok{)}
+\KeywordTok{acf.fnc}\NormalTok{(zz2, }\DataTypeTok{group=}\StringTok{"id"}\NormalTok{,}\DataTypeTok{time=}\StringTok{"times"}\NormalTok{,}\DataTypeTok{x=}\StringTok{"b"}\NormalTok{)}
+
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfcol=}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{week1_EDA_Sample_code_files/figure-latex/unnamed-chunk-2-14.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{id<-}\KeywordTok{sample}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{100}\NormalTok{,}\DecValTok{2}\NormalTok{)}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\DecValTok{2}\NormalTok{)\{}
+  \KeywordTok{acf}\NormalTok{(a[id[i],],}\DataTypeTok{main=}\StringTok{"Subject 1"}\NormalTok{)}
+  \KeywordTok{pacf}\NormalTok{(a[id[i],],}\DataTypeTok{main=}\StringTok{"Subject 2"}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{week1_EDA_Sample_code_files/figure-latex/unnamed-chunk-2-15.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfcol=}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{))}
+\KeywordTok{acf}\NormalTok{(b,}\DataTypeTok{main=}\StringTok{"All Subjects"}\NormalTok{)}
+\KeywordTok{pacf}\NormalTok{(b,}\DataTypeTok{main=}\StringTok{"All Subjects"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{week1_EDA_Sample_code_files/figure-latex/unnamed-chunk-2-16.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#variogram}
+\NormalTok{id<-}\KeywordTok{as.logical}\NormalTok{(}\KeywordTok{rbinom}\NormalTok{(}\DecValTok{900}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DataTypeTok{p=}\DecValTok{2}\OperatorTok{/}\DecValTok{3}\NormalTok{))}
+\NormalTok{naid<-}\KeywordTok{matrix}\NormalTok{(id,}\DataTypeTok{ncol=}\DecValTok{9}\NormalTok{,}\DataTypeTok{byrow=}\OtherTok{FALSE}\NormalTok{)}
+\NormalTok{b2<-a}
+\NormalTok{b2[}\OperatorTok{!}\NormalTok{naid]<-}\OtherTok{NA}
+\NormalTok{b3<-}\KeywordTok{as.vector}\NormalTok{(}\KeywordTok{t}\NormalTok{(b2))}
+\NormalTok{id<-}\KeywordTok{rep}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{100}\NormalTok{,}\KeywordTok{rep}\NormalTok{(}\DecValTok{9}\NormalTok{,}\DecValTok{100}\NormalTok{))}
+\NormalTok{zz<-}\KeywordTok{cbind}\NormalTok{(times,b3,id)}
+\NormalTok{zz<-}\KeywordTok{as.data.frame}\NormalTok{(zz)}
+\NormalTok{zz[,}\DecValTok{3}\NormalTok{]<-}\KeywordTok{as.factor}\NormalTok{(zz[,}\DecValTok{3}\NormalTok{])}
+\KeywordTok{colnames}\NormalTok{(zz)<-}\KeywordTok{c}\NormalTok{(}\StringTok{"times"}\NormalTok{,}\StringTok{"b"}\NormalTok{,}\StringTok{"id"}\NormalTok{)}
+\KeywordTok{xyplot}\NormalTok{(b}\OperatorTok{~}\NormalTok{times}\OperatorTok{|}\NormalTok{id,}\DataTypeTok{data=}\NormalTok{zz[}\DecValTok{1}\OperatorTok{:}\NormalTok{(}\DecValTok{12}\OperatorTok{*}\DecValTok{9}\NormalTok{),],}\DataTypeTok{pch=}\DecValTok{20}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"Time"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"Residuals"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{week1_EDA_Sample_code_files/figure-latex/unnamed-chunk-2-17.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(nlme)}
+\NormalTok{ind<-}\KeywordTok{which}\NormalTok{(}\OperatorTok{!}\KeywordTok{is.na}\NormalTok{(b3))}
+\NormalTok{times<-times[ind]}
+\NormalTok{b3<-b3[ind]}
+\NormalTok{u<-}\KeywordTok{lapply}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{(}\KeywordTok{length}\NormalTok{(times)}\OperatorTok{-}\DecValTok{1}\NormalTok{),}\ControlFlowTok{function}\NormalTok{(i)\{}\KeywordTok{abs}\NormalTok{(times[i]}\OperatorTok{-}\NormalTok{times[}\OperatorTok{-}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{i)])\})}
+\NormalTok{gam1<-}\KeywordTok{Variogram}\NormalTok{(b3,}\KeywordTok{unlist}\NormalTok{(u))}
+\NormalTok{gam2<-gam1}\OperatorTok{$}\NormalTok{variog}
+\NormalTok{u2<-gam1}\OperatorTok{$}\NormalTok{dist}
+\NormalTok{ylims=}\KeywordTok{range}\NormalTok{(gam2)}
+\NormalTok{xlims<-}\KeywordTok{range}\NormalTok{(u2)}
+\NormalTok{junk<-}\KeywordTok{loess.smooth}\NormalTok{(u2,gam2,}\DataTypeTok{evaluation=}\KeywordTok{length}\NormalTok{(u2),}\DataTypeTok{span=}\FloatTok{0.25}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## FALSE, : pseudoinverse used at 2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## FALSE, : neighborhood radius 1
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## FALSE, : reciprocal condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## FALSE, : There are other near singularities as well. 1
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## FALSE, : pseudoinverse used at -0.04
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## FALSE, : neighborhood radius 1.04
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## FALSE, : reciprocal condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## FALSE, : There are other near singularities as well. 1
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## FALSE, : pseudoinverse used at -0.04
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## FALSE, : neighborhood radius 1.04
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## FALSE, : reciprocal condition number 1.1381e-015
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## FALSE, : There are other near singularities as well. 1
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## FALSE, : pseudoinverse used at -0.04
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## FALSE, : neighborhood radius 1.04
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## FALSE, : reciprocal condition number 2.1884e-015
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## FALSE, : There are other near singularities as well. 1
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## FALSE, : pseudoinverse used at 2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## FALSE, : neighborhood radius 1
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## FALSE, : reciprocal condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## FALSE, : There are other near singularities as well. 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sid<-id[ind]}
+\NormalTok{sigma<-}\KeywordTok{lapply}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{(}\KeywordTok{length}\NormalTok{(b3)}\OperatorTok{-}\DecValTok{1}\NormalTok{),}\ControlFlowTok{function}\NormalTok{(i)\{b3[i]}\OperatorTok{-}\NormalTok{b3[sid}\OperatorTok{!=}\NormalTok{sid[i]]\})}
+\NormalTok{sigma<-}\KeywordTok{mean}\NormalTok{(((}\KeywordTok{unlist}\NormalTok{(sigma))}\OperatorTok{^}\DecValTok{2}\NormalTok{)}\OperatorTok{/}\DecValTok{2}\NormalTok{)}
+\NormalTok{junk<-}\KeywordTok{split}\NormalTok{(gam2,u2)}
+\NormalTok{gam2<-}\KeywordTok{sapply}\NormalTok{(junk,median)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfcol=}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(}\DecValTok{0}\OperatorTok{:}\DecValTok{8}\NormalTok{,gam2,}\DataTypeTok{pch=}\DecValTok{20}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"Distance"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"Variogram"}\NormalTok{,}\DataTypeTok{type=}\StringTok{"b"}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{h=}\NormalTok{sigma,}\DataTypeTok{lty=}\DecValTok{2}\NormalTok{)}
+\NormalTok{rho2<-}\DecValTok{1}\OperatorTok{-}\NormalTok{(gam2}\OperatorTok{/}\NormalTok{sigma)}
+\KeywordTok{plot}\NormalTok{(}\DecValTok{0}\OperatorTok{:}\DecValTok{8}\NormalTok{,rho2,}\DataTypeTok{pch=}\DecValTok{20}\NormalTok{,}\DataTypeTok{xlab=}\StringTok{"Distance"}\NormalTok{,}\DataTypeTok{ylab=}\StringTok{"Correlation"}\NormalTok{,}\DataTypeTok{type=}\StringTok{"b"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{week1_EDA_Sample_code_files/figure-latex/unnamed-chunk-2-18.pdf}
+
+
+\end{document}
